@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +17,7 @@ namespace TP
         TarefaModel model = new TarefaModel();
 
         Boolean editando = false;
+        Tarefa tarefaEditando = null;
 
         int id = 1;
 
@@ -55,20 +57,25 @@ namespace TP
                 tarefa.Prioridade = ComplexidadecomboBox.Text;
                 tarefa.DataVencimento = dateTimePicker1.Text;
                 tarefa.Status = StatuscomboBox.Text;
-                tarefa.TarefaDeletada = false;
                 id++;
 
                 model.AdicionarTarefa(tarefa);
-                this.RefreshDGV();
-                this.limparTexto();
+
             }
             else
             {
-                Tarefa tarefaEditada = resgatarTarefa(NometextBox.Text);
-                model.AdicionarTarefa(tarefaEditada);
-                this.RefreshDGV();
+                if(tarefaEditando != null)
+                {
+                    tarefaEditando.Nome = NometextBox.Text;
+                    tarefaEditando.Prioridade= ComplexidadecomboBox.Text;
+                    tarefaEditando.DataVencimento= dateTimePicker1.Text;
+                    tarefaEditando.Status = StatuscomboBox.Text;
+                }
+                tarefaEditando = null;
                 editando = false;
             }
+            this.RefreshDGV();
+            this.limparTexto();
         }
 
         public void limparTexto()
@@ -91,43 +98,62 @@ namespace TP
 
         }
 
-        private Tarefa resgatarTarefa(String nome) 
-        {
-            List<Tarefa> tarefas = model.getTarefas();
-            String nomeResgatado = NometextBox.Text;
-            Tarefa tarefa1 = new Tarefa();
+        //private Tarefa resgatarTarefa(String nome) 
+        //{
+        //    List<Tarefa> tarefas = model.getTarefas();
+        //    String nomeResgatado = NometextBox.Text;
+        //    Tarefa tarefa1 = new Tarefa();
 
-            foreach (Tarefa tarefa in tarefas)
-            {
-                if (tarefa.Nome == nomeResgatado)
-                {
-                    editando = true;
-                    tarefa.TarefaDeletada = true;
+        //    foreach (Tarefa tarefa in tarefas)
+        //    {
+        //        if (tarefa.Nome == nomeResgatado)
+        //        {
+        //            editando = true;
+        //            tarefa.TarefaDeletada = true;
 
-                    NometextBox.Text = tarefa.Nome;
-                    ComplexidadecomboBox.Text = tarefa.Prioridade;
-                    dateTimePicker1.Text = tarefa.DataVencimento;
-                    StatuscomboBox.Text = tarefa.Status;
+        //            NometextBox.Text = tarefa.Nome;
+        //            ComplexidadecomboBox.Text = tarefa.Prioridade;
+        //            dateTimePicker1.Text = tarefa.DataVencimento;
+        //            StatuscomboBox.Text = tarefa.Status;
 
-                    tarefa1.Id = id;
-                    tarefa1.Nome = NometextBox.Text;
-                    tarefa1.Prioridade = ComplexidadecomboBox.Text;
-                    tarefa1.DataVencimento = dateTimePicker1.Text;
-                    tarefa1.Status = StatuscomboBox.Text;
-                    tarefa1.TarefaDeletada = false;
+        //            tarefa1.Id = id;
+        //            tarefa1.Nome = NometextBox.Text;
+        //            tarefa1.Prioridade = ComplexidadecomboBox.Text;
+        //            tarefa1.DataVencimento = dateTimePicker1.Text;
+        //            tarefa1.Status = StatuscomboBox.Text;
+        //            tarefa1.TarefaDeletada = false;
 
-                    return tarefa1;
+        //            return tarefa1;
 
-                }
-            }
-            return tarefa1;
-        }
+        //        }
+        //    }
+        //    return tarefa1;
+        //}
 
         private void Editarbutton_Click(object sender, EventArgs e)
         {
-            bool editando = true;
-            Tarefa tarefa = resgatarTarefa(NometextBox.Text);
+            tarefaEditando = model.getTarefas().Find(t => t.Nome == NometextBox.Text);
 
+            if (tarefaEditando != null)
+            {
+                editando = true;
+                NometextBox.Text = tarefaEditando.Nome;
+                ComplexidadecomboBox.Text = tarefaEditando.Prioridade;
+                dateTimePicker1.Text = tarefaEditando.DataVencimento;
+                StatuscomboBox.Text = tarefaEditando.Status;
+            } else
+            {
+                MessageBox.Show("Erro");
+            }
+        }
+
+        private void graficobutton_Click(object sender, EventArgs e)
+        {
+            ArrayList nomes = new ArrayList();
+            ArrayList dificuldade = new ArrayList();
+
+            chart1.Series.Clear();
+            chart1.Titles.Add("Grafico de Tarefas")
         }
     }
 }

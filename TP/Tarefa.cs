@@ -13,8 +13,6 @@ namespace TP
         public string Prioridade{ get; set; }
         public string DataVencimento { get; set; }
         public string Status { get; set; }
-        public bool TarefaDeletada { get; set; }
-
 
         public Tarefa() { }
 
