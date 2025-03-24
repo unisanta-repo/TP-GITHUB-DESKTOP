@@ -21,7 +21,15 @@ namespace TP
 
         public List<Tarefa> getTarefas()
         {
-            return tarefas;
+            List<Tarefa> tarefasRetornadas = new List<Tarefa>();
+            foreach (Tarefa tarefa in tarefas) 
+            {
+                if (tarefa.TarefaDeletada != true) 
+                { 
+                    tarefasRetornadas.Add(tarefa);
+                }
+            }
+            return tarefasRetornadas;
         }
     }
 }
