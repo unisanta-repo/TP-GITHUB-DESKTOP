@@ -55,6 +55,16 @@ namespace TP
 
             model.AdicionarTarefa(tarefa);
             this.RefreshDGV();
+            this.limparTexto();
+
+        }
+
+        public void limparTexto()
+        {
+            NometextBox.Text = "";
+            ComplexidadecomboBox.Text = "";
+            dateTimePicker1.Text = "";
+            StatuscomboBox.Text = "";
         }
 
         public void RefreshDGV()
