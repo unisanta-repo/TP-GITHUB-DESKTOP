@@ -154,11 +154,17 @@ namespace TP
             ArrayList dificuldade = new ArrayList();
 
             chart1.Series.Clear();
+            chart1.Titles.Clear();
+
             chart1.Titles.Add("Grafico de Tarefas");
             chart1.ChartAreas[0].AxisX.Title = "Dificuldade";
             chart1.ChartAreas[0].AxisY.Title = "Quantidade";
+            chart1.ChartAreas[0].AxisY.Interval = 1;
+
+
             Series serieAlta = new Series("Alto")
             {
+                
                 ChartType = SeriesChartType.Bar,
                 BorderWidth = 2
             };
