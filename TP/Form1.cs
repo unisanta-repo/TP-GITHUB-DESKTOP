@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace TP
 {
@@ -153,7 +154,51 @@ namespace TP
             ArrayList dificuldade = new ArrayList();
 
             chart1.Series.Clear();
-            chart1.Titles.Add("Grafico de Tarefas")
+            chart1.Titles.Add("Grafico de Tarefas");
+            chart1.ChartAreas[0].AxisX.Title = "Dificuldade";
+            chart1.ChartAreas[0].AxisY.Title = "Quantidade";
+            Series serieAlta = new Series("Alto")
+            {
+                ChartType = SeriesChartType.Bar,
+                BorderWidth = 2
+            };
+            Series serieMedia = new Series("Médio")
+            {
+                ChartType = SeriesChartType.Bar,
+                BorderWidth = 2
+            };
+            Series serieBaixa = new Series("Baixo")
+            {
+                ChartType = SeriesChartType.Bar,
+                BorderWidth = 2
+            };
+
+            int alta = 0;
+            int media = 0;
+            int baixa = 0;
+
+            for (int i = 0; i < model.getTarefas().Count; i++)
+            {
+                if (model.getTarefas()[i].Prioridade == "Alta") 
+                {
+                    alta++;
+                }
+                else if(model.getTarefas()[i].Prioridade == "Media")
+                {
+                    media++;
+                } else
+                {
+                    baixa++;
+                }
+            }
+            serieAlta.Points.AddXY("Alta", alta);
+            serieMedia.Points.AddXY("Média", media);
+            serieBaixa.Points.AddXY("Baixa", baixa);
+
+            chart1.Series.Add(serieAlta);
+            chart1.Series.Add(serieMedia);
+            chart1.Series.Add(serieBaixa);
+
         }
     }
 }
